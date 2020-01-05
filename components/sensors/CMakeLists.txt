@@ -1,3 +1,3 @@
-idf_component_register(SRCS "sensors.c"
+idf_component_register(SRCS "sensors.cpp"
                        INCLUDE_DIRS "include"
-                       REQUIRES vl53l0x)
+                       PRIV_REQUIRES vl53l0x)
