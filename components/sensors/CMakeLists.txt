@@ -1,3 +1,3 @@
-idf_component_register(SRCS "api.c"
+idf_component_register(SRCS "sensors.c"
                        INCLUDE_DIRS "include"
-                       REQUIRES ???)
+                       REQUIRES vl53l0x)
