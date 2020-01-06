@@ -10,9 +10,7 @@
 
 #include "sensors.h"
 
-VL53L0X v;
-
-void vl53l0x_Init()
+VL53L0X vl53l0x_Init()
 {
     VL53L0X vl(I2C_PORT);
     vl.i2cMasterInit(PIN_SDA, PIN_SCL);
@@ -22,10 +20,10 @@ void vl53l0x_Init()
         vTaskDelay(portMAX_DELAY);
     }
     
-    v = vl;
+    return vl;
 }
 
-uint16_t vl53l0x_getDistance()
+uint16_t vl53l0x_getDistance(VL53L0X v)
 {
     while (1)
     {

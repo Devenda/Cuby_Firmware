@@ -5,8 +5,7 @@
 
 #include "sensors.h"
 
-void app_main(void)
-{
-    vl53l0x_Init();
-    vl53l0x_getDistance();
+extern "C" void app_main(void)
+{    
+    vl53l0x_getDistance(vl53l0x_Init());
 }

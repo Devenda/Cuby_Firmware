@@ -2,6 +2,7 @@
 #define _SENSORS_H_
 
 #include "driver/i2c.h"   /*!< user specific field */
+#include "VL53L0X.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -13,9 +14,9 @@ extern "C" {
 #define PIN_SCL GPIO_NUM_17
 
 /* functions */
-void vl53l0x_Init();
+VL53L0X vl53l0x_Init();
 
-uint16_t vl53l0x_getDistance();
+uint16_t vl53l0x_getDistance(VL53L0X v);
 
 
 #ifdef __cplusplus
