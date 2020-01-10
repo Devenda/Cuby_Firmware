@@ -1,5 +1,4 @@
-#ifndef _SENSORS_H_
-#define _SENSORS_H_
+#pragma once
 
 #include "driver/i2c.h"   /*!< user specific field */
 
@@ -21,5 +20,3 @@ uint16_t vl53l0x_getDistance();
 #ifdef __cplusplus
 }
 #endif
-
-#endif  /* _SENSORS_H_ */

@@ -21,25 +21,15 @@ void vl53l0x_Init()
         ESP_LOGE(TAG, "Failed to initialize VL53L0X :(");
         vTaskDelay(portMAX_DELAY);
     }
-    
+
     v = vl;
 }
 
 uint16_t vl53l0x_getDistance()
 {
-    while (1)
-    {
-        /* measurement */
-        uint16_t result_mm = 0;
-        TickType_t tick_start = xTaskGetTickCount();
-        bool res = v.read(&result_mm);
-        TickType_t tick_end = xTaskGetTickCount();
-        int took_ms = ((int)tick_end - tick_start) / portTICK_PERIOD_MS;
-        if (res)
-            ESP_LOGI(TAG, "Range: %d [mm] took %d [ms]", (int)result_mm, took_ms);
-        else
-            ESP_LOGE(TAG, "Failed to measure :(");
+    /* measurement */
+    uint16_t result_mm = 0;
+    bool res = v.read(&result_mm);
 
-        vTaskDelay(pdMS_TO_TICKS(250));
-    }
+    return (int)result_mm;
 }
