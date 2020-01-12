@@ -24,7 +24,7 @@ void app_main(void)
         // dist = dist + 1;
         sprintf(sDist, "%d", dist);
 
-        // ESP_LOGI(TAG, "Distance: %d", dist);
+        ESP_LOGI(TAG, "Distance: %d", dist);
         oled_drawString(u8g2, sDist);
 
         vTaskDelay(pdMS_TO_TICKS(250));

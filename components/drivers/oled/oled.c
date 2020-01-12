@@ -51,29 +51,13 @@ u8g2_t oled_init()
 
 void oled_drawString(u8g2_t u8g2, char *string)
 {
-	// gpio_pad_select_gpio(BLINK_GPIO);
-	// /* Set the GPIO as a push/pull output */
-	// gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
-	// gpio_set_level(BLINK_GPIO, 1);
-
-	// ESP_LOGI(TAG, "u8g2_DrawBox");
-	// u8g2_DrawBox(&u8g2, 0, 26, 80, 6);
-	// u8g2_DrawFrame(&u8g2, 0, 26, 100, 6);
 	u8g2_ClearDisplay(&u8g2);
 	ESP_LOGI(TAG, "u8g2_SetFont");
 	u8g2_SetFont(&u8g2, u8g2_font_ncenB14_tr);
 	ESP_LOGI(TAG, "u8g2_DrawStr");
-	u8g2_DrawStr(&u8g2, 2, 17, "test");
+	u8g2_DrawStr(&u8g2, 2, 17, string);
 	ESP_LOGI(TAG, "u8g2_SendBuffer");
 	u8g2_SendBuffer(&u8g2);
 
 	ESP_LOGI(TAG, "All done!");
-
-	// vTaskDelete(NULL);
 }
-
-// void app_main()
-// {
-// 	xTaskCreate(task_test_SSD1306i2c, "task_test_SSD1306i2c", 2 * 4096, NULL, 10, NULL);
-// 	// task_test_SSD1306i2c();
-// }
