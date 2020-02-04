@@ -1,0 +1,18 @@
+image: espressif/idf:latest
+
+test:
+  script:
+    - echo "the project directory is - $CI_PROJECT_DIR"
+    - cat $CI_PROJECT_DIR/README.md ; echo
+    - echo "and where am I? - $PWD"
+    - idf.py ; echo
+
+# stages:
+#   - build
+
+# compile:
+#   stage: build
+#   tags:
+#     - idf-docker 
+#   script:
+#     - echo "Something like compilation should go here"
