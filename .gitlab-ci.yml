@@ -9,4 +9,5 @@ test:
 
 build:
   script:
+    - git submodule update --init --recursive
     - idf.py build
