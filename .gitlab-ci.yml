@@ -7,12 +7,6 @@ test:
     - echo "and where am I? - $PWD"
     - idf.py ; echo
 
-# stages:
-#   - build
-
-# compile:
-#   stage: build
-#   tags:
-#     - idf-docker 
-#   script:
-#     - echo "Something like compilation should go here"
+build:
+  script:
+    - idf.py build
