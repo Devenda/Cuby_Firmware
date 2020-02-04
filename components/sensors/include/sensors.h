@@ -12,10 +12,13 @@ extern "C" {
 #define PIN_SCL GPIO_NUM_17
 
 /* functions */
+//Distance
 void vl53l0x_Init();
 
 uint16_t vl53l0x_getDistance();
 
+//Battery
+int sensors_bat_voltage();
 
 #ifdef __cplusplus
 }
