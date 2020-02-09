@@ -1,12 +1,12 @@
-test:
-  image: espressif/idf:latest
-  script:
-    - touch test.txt
-    #- scp /main/cuby.c firmware@192.168.2.16:/srv/nginx/firmware/
-  artifacts:
-    paths:
-    - test.txt
-    expire_in: 1 week
+# test:
+#   image: espressif/idf:latest
+#   script:
+#     - touch test.txt
+#     #- scp /main/cuby.c firmware@192.168.2.16:/srv/nginx/firmware/
+#   artifacts:
+#     paths:
+#     - test.txt
+#     expire_in: 1 week
 
 # build:
 #   script:
@@ -17,4 +17,5 @@ test:
 
 deploy:
   script:
-    - scp test.txt firmware@192.168.2.16:/srv/nginx/firmware/
+    - touch test.txt
+    - scp test.txt firmware@firmware-host:/srv/nginx/firmware/
