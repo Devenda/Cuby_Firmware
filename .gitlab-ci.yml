@@ -21,3 +21,5 @@ deploy:
     - ip a 
     - ping -c 4 192.168.2.16
     - scp test.txt firmware@192.168.2.16:/srv/nginx/firmware/
+  tags:
+    - shell
