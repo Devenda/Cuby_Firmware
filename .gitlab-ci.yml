@@ -13,7 +13,7 @@
 #     - git submodule update --init --recursive
 #     - idf.py build
 #   after_script:
-    # - execute this after my script 
+    # - execute this after my script  
 
 deploy:
   script:
