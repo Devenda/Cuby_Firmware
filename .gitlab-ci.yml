@@ -1,6 +1,5 @@
-image: espressif/idf:latest
-
 test:
+  image: espressif/idf:latest
   script:
     - touch test.txt
     #- scp /main/cuby.c firmware@192.168.2.16:/srv/nginx/firmware/
@@ -15,3 +14,7 @@ test:
 #     - idf.py build
 #   after_script:
     # - execute this after my script
+    
+deploy:
+  script:
+    - scp test.txt firmware@192.168.2.16:/srv/nginx/firmware/
