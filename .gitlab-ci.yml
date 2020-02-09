@@ -33,7 +33,7 @@ build:
     - docker
   artifacts:
     paths:
-    - /build/cuby.bin
+    - ./build/cuby.bin
     expire_in: 1 hour
 
 deploy:
