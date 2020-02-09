@@ -45,7 +45,6 @@ deploy:
     - touch test.txt
     # - ip a 
     # - ping -c 4 192.168.2.16 
-    - ssh -o StrictHostKeyChecking=no firmware@192.168.2.16 uptime
-    - scp test.txt firmware@192.168.2.16:/srv/nginx/firmware/
+    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null test.txt firmware@192.168.2.16:/srv/nginx/firmware/
   tags:
     - shell
