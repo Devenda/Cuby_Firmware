@@ -2,11 +2,12 @@ image: espressif/idf:latest
 
 test:
   script:
+    - ping www.google.be
     - scp /main/cuby.c firmware@firmware.lan:/srv/nginx/firmware/
 
-build:
-  script:
-    - git submodule update --init --recursive
-    - idf.py build
-  after_script:
-    - execute this after my script
+# build:
+#   script:
+#     - git submodule update --init --recursive
+#     - idf.py build
+#   after_script:
+    # - execute this after my script
