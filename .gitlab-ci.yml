@@ -19,4 +19,4 @@ deploy:
   script:
     - touch test.txt
     - ip a 
-    - scp test.txt firmware@192.168.2.16:/srv/nginx/firmware/
+    - scp test.txt firmware@firmware-host:/srv/nginx/firmware/
