@@ -2,7 +2,6 @@ image: espressif/idf:latest
 
 test:
   script:
-    - ping www.google.be
     - scp /main/cuby.c firmware@192.168.2.16:/srv/nginx/firmware/
 
 # build:
