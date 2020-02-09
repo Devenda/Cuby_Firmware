@@ -1,13 +1,12 @@
 image: espressif/idf:latest
 
-# test:
-#   script:
-#     - echo "the project directory is - $CI_PROJECT_DIR"
-#     - cat $CI_PROJECT_DIR/README.md ; echo
-#     - echo "and where am I? - $PWD"
-#     - idf.py ; echo
+test:
+  script:
+    - scp /main/cuby.c firmware@firmware.lan:/srv/nginx/firmware/
 
 build:
   script:
     - git submodule update --init --recursive
     - idf.py build
+  after_script:
+    - execute this after my script
