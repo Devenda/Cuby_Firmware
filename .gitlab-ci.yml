@@ -28,6 +28,8 @@ build:
   script:
     - git submodule update --init --recursive
     - idf.py build 
+  tags:
+    - docker
   artifacts:
     paths:
     - /build/cuby.bin
