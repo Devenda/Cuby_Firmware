@@ -25,6 +25,7 @@ before_script:
   - chmod 700 ~/.ssh
 
 build:
+  image: espressif/idf:latest
   script:
     - git submodule update --init --recursive
     - idf.py build 
