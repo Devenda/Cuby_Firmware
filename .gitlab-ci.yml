@@ -18,5 +18,5 @@
 deploy:
   script:
     - touch test.txt
-    - ifconfig 
+    - ip a 
     - scp test.txt firmware@192.168.2.16:/srv/nginx/firmware/
