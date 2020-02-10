@@ -30,7 +30,7 @@ stages:
 
 build:
   stage: build
-  image: espressif/idf:latest
+  image: espressif/idf:release-v4.1
   script:
     - git submodule update --init --recursive
     - idf.py build 
