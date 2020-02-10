@@ -45,7 +45,7 @@ build:
     expire_in: 1 hour
 
 deploy:
-  stage: deploy
+  stage: deploy 
   script:
     - ls -la
     - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./build/cuby.bin firmware@192.168.2.16:/srv/nginx/firmware/
