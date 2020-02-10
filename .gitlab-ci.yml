@@ -36,7 +36,7 @@ build:
     - idf.py build 
   cache:
     paths:
-      - build/
+      - b
   tags:
     - docker
   artifacts:
