@@ -29,7 +29,7 @@ stages:
   - deploy
 
 build:
-  stage: build
+  stage: build 
   image: espressif/idf:latest
   script:
     - git submodule update --init --recursive
