@@ -32,7 +32,6 @@ build:
   stage: build
   image: espressif/idf:release-v4.1
   script:
-    - docker images
     - git submodule update --init --recursive
     - idf.py build 
   cache:
@@ -48,6 +47,7 @@ build:
 deploy:
   stage: deploy
   script:
+    - docker images
     - ls -la
     - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./build/cuby.bin firmware@192.168.2.16:/srv/nginx/firmware/
   tags:
