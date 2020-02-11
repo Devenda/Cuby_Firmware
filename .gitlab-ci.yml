@@ -38,7 +38,7 @@ build:
     paths:
       - build/
   tags:
-    - docker
+    - idf-docker
   artifacts:
     paths:
     - ./build/cuby.bin
