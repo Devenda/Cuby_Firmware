@@ -33,7 +33,7 @@ build:
   image: espressif/idf:release-v4.1
   script:
     - git submodule update --init --recursive
-    - idf.py build
+    - idf.py build 
   cache:
     paths:
       - build/
