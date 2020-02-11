@@ -32,6 +32,7 @@ build:
   stage: build
   image: espressif/idf:release-v4.1
   script:
+    - docker images
     - git submodule update --init --recursive
     - idf.py build 
   cache:
