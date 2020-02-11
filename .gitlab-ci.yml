@@ -29,8 +29,7 @@ stages:
   - deploy
 
 build:
-  stage: build
-  #image: espressif/idf:release-v4.1
+  stage: build  
   script:
     - git submodule update --init --recursive
     - idf.py build
@@ -38,7 +37,7 @@ build:
     paths:
       - build/
   tags:
-    - idf-docker
+    - idf-docker #image: espressif/idf:release-v4.1
   artifacts:
     paths:
     - ./build/cuby.bin
