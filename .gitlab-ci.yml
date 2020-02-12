@@ -11,7 +11,7 @@ build:
     paths:
       - build/
   tags:
-    - idf-docker #image: espressif/idf:latest
+    - idf-docker #image: espressif/idf:latest 
   artifacts:
     paths:
     - ./build/cuby.bin
