@@ -9,6 +9,8 @@
 #include "sensors.h"
 #include "oled.h"
 #include "motors.h"
+#include "wifi.h"
+#include "ota.h"
 
 static const char *TAG = "main";
 
@@ -21,23 +23,30 @@ void app_main(void)
     motors_init_gpio();
     motors_sleep();
 
+    wifi_init_sta();
+
+    ota_start_update(NULL);
+    // xTaskCreate(&ota_start_update, "ota_start_update", 8192, NULL, 5, NULL);
+
+
     while (1)
     {
+        //test distance
+        // dist = vl53l0x_getDistance();
 
-        dist = vl53l0x_getDistance();
+        // char sDist[16];
+        // sprintf(sDist, "%d", dist);
 
-        char sDist[16];
-        sprintf(sDist, "%d", dist);
-
-        ESP_LOGI(TAG, "Distance: %d", dist);
+        // ESP_LOGI(TAG, "Distance: %d", dist);
         // oled_drawString(u8g2, sDist);
 
-        int val = sensors_bat_voltage();
-        char sVal[16];
-        sprintf(sVal, "%d", val);
+        //test bat voltage
+        // int val = sensors_bat_voltage();
+        // char sVal[16];
+        // sprintf(sVal, "%d", val);
 
-        ESP_LOGI(TAG, "Bat: %d", val);
-        oled_drawString(u8g2, sVal);
+        // ESP_LOGI(TAG, "Bat: %d", val);
+        // oled_drawString(u8g2, sDist);
 
         vTaskDelay(pdMS_TO_TICKS(250));
     }
