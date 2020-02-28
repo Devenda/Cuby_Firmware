@@ -14,7 +14,7 @@
 
 static const char *TAG = "main";
 
-void app_main(void)
+extern "C" void app_main(void)
 {
     vl53l0x_Init();
     u8g2_t u8g2 = oled_init();
@@ -25,20 +25,19 @@ void app_main(void)
 
     wifi_init_sta();
 
-    ota_start_update(NULL);
+    // ota_start_update(NULL);
     // xTaskCreate(&ota_start_update, "ota_start_update", 8192, NULL, 5, NULL);
-
 
     while (1)
     {
         //test distance
-        // dist = vl53l0x_getDistance();
+        dist = vl53l0x_getDistance();
 
-        // char sDist[16];
-        // sprintf(sDist, "%d", dist);
+        char sDist[16];
+        sprintf(sDist, "%d", dist);
 
-        // ESP_LOGI(TAG, "Distance: %d", dist);
-        // oled_drawString(u8g2, sDist);
+        ESP_LOGI(TAG, "Distance: %d", dist);
+        oled_drawString(u8g2, sDist);
 
         //test bat voltage
         // int val = sensors_bat_voltage();

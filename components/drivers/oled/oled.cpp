@@ -7,23 +7,32 @@
 #include <string.h>
 #include <u8g2.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include "sdkconfig.h"
 #include "u8g2_esp32_hal.h"
 
+#ifdef __cplusplus
+}
+#endif
+
 // SDA - GPIO21
-#define PIN_SDA 23
+#define PIN_SDA GPIO_NUM_23
 
 // SCL - GPIO22
-#define PIN_SCL 22
+#define PIN_SCL GPIO_NUM_22
 
 // Reset
-#define PIN_RST 21
+#define PIN_RST GPIO_NUM_21
 
 static const char *TAG = "ssd1306";
 
 u8g2_t oled_init()
 {
-	u8g2_esp32_hal_t u8g2_esp32_hal = U8G2_ESP32_HAL_DEFAULT;
+	u8g2_esp32_hal_t u8g2_esp32_hal; // = U8G2_ESP32_HAL_DEFAULT;
 	u8g2_esp32_hal.sda = PIN_SDA;
 	u8g2_esp32_hal.scl = PIN_SCL;
 	u8g2_esp32_hal.reset = PIN_RST;

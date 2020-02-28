@@ -8,13 +8,13 @@
 #include "driver/mcpwm.h"
 #include "soc/mcpwm_periph.h"
 
-#define GPIO_M1_A1 14 
-#define GPIO_M1_A2 13 
+#define GPIO_M1_A1 GPIO_NUM_14 
+#define GPIO_M1_A2 GPIO_NUM_13 
 
-#define GPIO_M2_A1 4 
-#define GPIO_M2_A2 2 
+#define GPIO_M2_A1 GPIO_NUM_4 
+#define GPIO_M2_A2 GPIO_NUM_2 
 
-#define GPIO_MSLP 15 
+#define GPIO_MSLP GPIO_NUM_15 
 
 void motors_init_gpio()
 {
@@ -48,8 +48,8 @@ static void mcpwm_example_config(void *arg)
     mcpwm_init(MCPWM_UNIT_0, MCPWM_TIMER_2, &pwm_config);
     
     printf("Configuration Done \n");
-    mcpwm_sync_enable(MCPWM_UNIT_0, MCPWM_TIMER_1, 1, 0);
-    mcpwm_sync_enable(MCPWM_UNIT_0, MCPWM_TIMER_2, 1, 0);
+    mcpwm_sync_enable(MCPWM_UNIT_0, MCPWM_TIMER_1, MCPWM_SELECT_SYNC1, 0);
+    mcpwm_sync_enable(MCPWM_UNIT_0, MCPWM_TIMER_2, MCPWM_SELECT_SYNC1, 0);
 
     //Duty mode zal niet belangrijk zijn, er is maar één signaal het andere moet steeds laag zijn
     mcpwm_set_duty_type(MCPWM_UNIT_0, MCPWM_TIMER_1, MCPWM_OPR_A, MCPWM_DUTY_MODE_1); //Set PWM0A to duty mode one

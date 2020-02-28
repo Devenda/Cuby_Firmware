@@ -91,8 +91,8 @@ void wifi_init_sta(void)
 
     wifi_config_t wifi_config = {
         .sta = {
-            .ssid = ESP_WIFI_SSID,
-            .password = ESP_WIFI_PASS
+            {.ssid = ESP_WIFI_SSID},
+            {.password = ESP_WIFI_PASS}
         },
     };
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
