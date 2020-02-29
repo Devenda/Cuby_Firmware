@@ -34,8 +34,8 @@ extern "C" void app_main(void)
 
     xQueueHandle xTouchPadQueue = xQueueCreate(1, sizeof(int));
 
-    TouchPad tp8(TOUCH_PAD_NUM8, xTouchPadQueue);
-    // TouchPad tp9(TOUCH_PAD_NUM9, xTouchPadQueue);
+    TouchPad tp8(TOUCH_PAD_NUM8, xTouchPadQueue); // => This is not working, only TP9 is working
+    TouchPad tp9(TOUCH_PAD_NUM9, xTouchPadQueue);
 
     // xTaskCreate(tp8.tp_touch_handler, "tp_touch_handler", 8192, NULL, 5, NULL);
     // xTaskCreate(tp9.tp_touch_handler, "tp_touch_handler", 8192, NULL, 5, NULL);
@@ -62,9 +62,8 @@ extern "C" void app_main(void)
         if (xQueueReceive(xTouchPadQueue, &touchedPad, portMAX_DELAY))
         {
             ESP_LOGI(TAG, "pad %d touched", touchedPad);
+            vTaskDelay(pdMS_TO_TICKS(200));
         }
-   
-        vTaskDelay(pdMS_TO_TICKS(250));
     }
 }
 

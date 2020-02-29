@@ -26,12 +26,6 @@ static const char *TAG = "Touch pad";
 #define TOUCH_THRESH_PERCENT (80)
 #define TOUCHPAD_FILTER_TOUCH_PERIOD (10)
 
-typedef struct
-{
-    touch_pad_t pad;
-    xQueueHandle touchQueue;
-} isrArgs_t;
-
 TouchPad ::TouchPad(touch_pad_t pad, xQueueHandle touchQueue)
 {
     _pad = pad;
@@ -52,7 +46,7 @@ void TouchPad ::tp_init(void)
     // the high reference valtage will be 2.7V - 1V = 1.7V, The low reference voltage will be 0.5V.
     touch_pad_set_voltage(TOUCH_HVOLT_2V7, TOUCH_LVOLT_0V5, TOUCH_HVOLT_ATTEN_1V);
     //init RTC IO and mode for touch pad.
-    touch_pad_config(_pad, TOUCH_THRESH_NO_USE);
+    touch_pad_config(_pad, TOUCH_THRESH_PERCENT);
     // Initialize and start a software filter to detect slight change of capacitance.
     touch_pad_filter_start(TOUCHPAD_FILTER_TOUCH_PERIOD);
     // Set threshold
@@ -83,7 +77,7 @@ void TouchPad::tp_set_threshold()
     touch_pad_read_filtered(_pad, &touch_value);
     ESP_LOGI(TAG, "test init: touch pad [%d] val is %d", _pad, touch_value);
     //set interrupt threshold.
-    ESP_ERROR_CHECK(touch_pad_set_thresh(_pad, touch_value * 2 / 3));
+    ESP_ERROR_CHECK(touch_pad_set_thresh(_pad, touch_value * 5 / 10));
 }
 
 /*
@@ -92,15 +86,21 @@ void TouchPad::tp_set_threshold()
  */
 void TouchPad ::tp_rtc_intr(void *arg)
 {
-    TouchPad* tp = (TouchPad*)arg;
+    TouchPad *tp = (TouchPad *)arg;
     uint32_t pad_intr = touch_pad_get_status();
     //clear interrupt
     touch_pad_clear_status();
-    ets_printf("Pad %d touched \n", (int)tp->_pad);
 
     if ((pad_intr >> tp->_pad) & 0x01)
     {
-        xQueueSendFromISR(tp->_touchQueue, &tp->_pad, NULL);
+        if (xQueueSendFromISR(tp->_touchQueue, &tp->_pad, NULL) == pdTRUE)
+        {
+            // ets_printf("Write successful\n");
+        }
+        else
+        {
+            // ets_printf("Write failed\n");
+        }
     }
 }
 
