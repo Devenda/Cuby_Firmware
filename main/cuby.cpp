@@ -46,9 +46,6 @@ extern "C" void app_main(void)
 
     Touch touch(touchpads, xTouchPadQueue);
 
-    // xTaskCreate(tp8.tp_touch_handler, "tp_touch_handler", 8192, NULL, 5, NULL);
-    // xTaskCreate(tp9.tp_touch_handler, "tp_touch_handler", 8192, NULL, 5, NULL);
-
     while (1)
     {
         //test distance
