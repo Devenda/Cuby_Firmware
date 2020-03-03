@@ -1,2 +1,2 @@
-idf_component_register(SRCS "Touch.cpp" "touch.cpp" "ui.cpp"
+idf_component_register(SRCS "touch.cpp" "ui.cpp"
                        INCLUDE_DIRS "include")
