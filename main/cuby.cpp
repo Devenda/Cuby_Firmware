@@ -42,6 +42,7 @@ extern "C" void app_main(void)
     touchpads.push_back(TOUCH_PAD_NUM8);
     touchpads.push_back(TOUCH_PAD_NUM9);
 
+    // TODO: size 1: als beiden tegelijk ingedrukt blijven wordt er mss een gemist
     xQueueHandle xTouchPadQueue = xQueueCreate(1, sizeof(int));
 
     Touch touch(touchpads, xTouchPadQueue);

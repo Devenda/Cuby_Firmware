@@ -19,7 +19,7 @@
 #include "soc/rtc_periph.h"
 #include "soc/sens_periph.h"
 
-#include "Touch.h"
+#include "touch.h"
 
 static const char *TAG = "Touch";
 
