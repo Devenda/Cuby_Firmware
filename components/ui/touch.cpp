@@ -108,7 +108,7 @@ void Touch::tp_rtc_intr(void *arg)
     //clear interrupt
     touch_pad_clear_status();
     
-    if (touched == false)
+    if (Touch::touched == false)
     {
         for (int i = 0; i < tp->_pads.size(); i++)
         {
@@ -117,7 +117,7 @@ void Touch::tp_rtc_intr(void *arg)
             {
                 // ets_printf("Pad %d touched", i);
 
-                touched = true;
+                Touch::touched = true;
                 xQueueSendFromISR(tp->_rawTouchQueue, &tp->_pads[i], NULL);
             }
         }
@@ -134,7 +134,7 @@ void Touch::tp_touch_handler()
         {
             ESP_LOGI(TAG, "pad %d touched", touchedPad);
             vTaskDelay(pdMS_TO_TICKS(200));
-            touched = false;
+            Touch::touched = false;
         }
     }
 }
@@ -142,4 +142,8 @@ void Touch::tp_touch_handler()
 void Touch::tp_touch_handler_wrapper(void *_this)
 {
     ((Touch *)_this)->tp_touch_handler();
+}
+
+Touch::~Touch(){
+    ESP_LOGI(TAG, "Destructor called");
 }

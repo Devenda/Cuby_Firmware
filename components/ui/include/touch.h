@@ -38,5 +38,5 @@ private:
 
 public:
     Touch(std::vector<touch_pad_t> pads, xQueueHandle touchQueue);
-    // ~Touch();
+    ~Touch();
 };

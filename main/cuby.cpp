@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <esp_log.h>
-#include <vector>
+
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -12,14 +12,14 @@
 #include "motors.h"
 #include "wifi.h"
 #include "ota.h"
-#include "touch.h"
+#include "ui.h"
 
 static const char *TAG = "main";
 
-static xQueueHandle button_queue = NULL;
-
 extern "C" void app_main(void)
 {
+    ESP_LOGI(TAG, "Initializing Cupy");
+
     // Distance & OLED
     // vl53l0x_Init();
     // u8g2_t u8g2 = oled_init();
@@ -36,17 +36,9 @@ extern "C" void app_main(void)
     // ota_start_update(NULL);
     // xTaskCreate(&ota_start_update, "ota_start_update", 8192, NULL, 5, NULL);
 
-    // Touch
-    touch_pad_t touchedPad;
-    std::vector<touch_pad_t> touchpads;
-    touchpads.push_back(TOUCH_PAD_NUM8);
-    touchpads.push_back(TOUCH_PAD_NUM9);
-
-    // TODO: size 1: als beiden tegelijk ingedrukt blijven wordt er mss een gemist
-    xQueueHandle xTouchPadQueue = xQueueCreate(1, sizeof(int));
-
-    Touch touch(touchpads, xTouchPadQueue);
-
+    // UI
+    UI ui;
+  
     while (1)
     {
         //test distance
