@@ -26,10 +26,18 @@ static const char *TAG = "Touch";
 #define TOUCH_THRESH_PERCENT (80)
 #define TOUCHPAD_FILTER_TOUCH_PERIOD (10)
 
+bool Touch::touched = false;
+
 Touch::Touch(std::vector<touch_pad_t> pads, xQueueHandle touchQueue)
 {
+    // TODO: size 1: als beiden tegelijk ingedrukt blijven wordt er mss een gemist
+    _rawTouchQueue = xQueueCreate(1, sizeof(int));
+
     _pads = pads;
     _touchQueue = touchQueue;
+
+    // Create internal touch task handler
+    xTaskCreate(this->tp_touch_handler_wrapper, "tp_touch_handler", 8192, this, 5, NULL);
 
     tp_init();
 }
@@ -99,12 +107,19 @@ void Touch::tp_rtc_intr(void *arg)
     uint32_t pad_intr = touch_pad_get_status();
     //clear interrupt
     touch_pad_clear_status();
-
-    for (int i = 0; i < tp->_pads.size(); i++)
+    
+    if (touched == false)
     {
-        if ((pad_intr >> (int)tp->_pads[i]) & 0x01)
+        for (int i = 0; i < tp->_pads.size(); i++)
         {
-            xQueueSendFromISR(tp->_touchQueue, &tp->_pads[i], NULL);
+
+            if ((pad_intr >> (int)tp->_pads[i]) & 0x01)
+            {
+                // ets_printf("Pad %d touched", i);
+
+                touched = true;
+                xQueueSendFromISR(tp->_rawTouchQueue, &tp->_pads[i], NULL);
+            }
         }
     }
 }
@@ -113,8 +128,18 @@ void Touch::tp_touch_handler()
 {
     touch_pad_t touchedPad;
 
-    if (xQueueReceive(_touchQueue, &touchedPad, 0))
+    while (1)
     {
-        ESP_LOGI(TAG, "pad %d touched", touchedPad);
+        if (xQueueReceive(_rawTouchQueue, &touchedPad, portMAX_DELAY))
+        {
+            ESP_LOGI(TAG, "pad %d touched", touchedPad);
+            vTaskDelay(pdMS_TO_TICKS(200));
+            touched = false;
+        }
     }
+}
+
+void Touch::tp_touch_handler_wrapper(void *_this)
+{
+    ((Touch *)_this)->tp_touch_handler();
 }

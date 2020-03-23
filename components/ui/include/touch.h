@@ -17,6 +17,14 @@ class Touch
 {
 private:
     std::vector<touch_pad_t> _pads;
+
+    // To keep track of touch signals
+    static bool touched;
+
+    // Internal queue for raw touch handling
+    xQueueHandle _rawTouchQueue;
+
+    // External queue for ui interfacing
     xQueueHandle _touchQueue;
 
     void tp_init();
@@ -25,9 +33,10 @@ private:
 
     static void tp_rtc_intr(void *arg);
 
+    void tp_touch_handler();
+    static void tp_touch_handler_wrapper(void *);
+
 public:
     Touch(std::vector<touch_pad_t> pads, xQueueHandle touchQueue);
-    ~Touch();
-
-    void tp_touch_handler();
+    // ~Touch();
 };

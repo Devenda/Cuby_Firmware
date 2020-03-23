@@ -25,7 +25,7 @@ extern "C" void app_main(void)
     // u8g2_t u8g2 = oled_init();
     // uint16_t dist = 0;
 
-    // Motors 
+    // Motors
     motors_init_gpio();
     motors_sleep();
 
@@ -66,11 +66,9 @@ extern "C" void app_main(void)
         // ESP_LOGI(TAG, "Bat: %d", val);
         // oled_drawString(u8g2, sDist);
 
-        if (xQueueReceive(xTouchPadQueue, &touchedPad, portMAX_DELAY))
-        {
-            ESP_LOGI(TAG, "pad %d touched", touchedPad);
-            vTaskDelay(pdMS_TO_TICKS(200));
-        }
+        // This needs to be here to reset watchdog
+        // If no while is present the touch object is destroyed and ISR event cannot determine touched pad 
+        vTaskDelay(pdMS_TO_TICKS(200));
     }
 }
 
