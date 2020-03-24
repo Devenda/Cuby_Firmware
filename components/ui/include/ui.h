@@ -6,9 +6,11 @@
 class UI
 {
 private:
-    // void ui_init();
+    xQueueHandle _xTouchPadQueue;
 
 public:
     UI(/* args */);
     ~UI();
+
+    void blinkLed();
 };

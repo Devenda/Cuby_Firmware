@@ -124,6 +124,10 @@ void Touch::tp_rtc_intr(void *arg)
     }
 }
 
+void Touch::tp_touch_handler_wrapper(void *_this)
+{
+    static_cast<Touch *>(_this)->tp_touch_handler();
+}
 void Touch::tp_touch_handler()
 {
     touch_pad_t touchedPad;
@@ -132,16 +136,12 @@ void Touch::tp_touch_handler()
     {
         if (xQueueReceive(_rawTouchQueue, &touchedPad, portMAX_DELAY))
         {
-            ESP_LOGI(TAG, "pad %d touched", touchedPad);
+            // ESP_LOGI(TAG, "pad %d touched", touchedPad);
+            xQueueSendToBack(_touchQueue, &touchedPad, portMAX_DELAY);
             vTaskDelay(pdMS_TO_TICKS(200));
             Touch::touched = false;
         }
     }
-}
-
-void Touch::tp_touch_handler_wrapper(void *_this)
-{
-    ((Touch *)_this)->tp_touch_handler();
 }
 
 Touch::~Touch(){
