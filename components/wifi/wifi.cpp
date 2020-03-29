@@ -15,6 +15,7 @@
 #include "esp_event.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
+#include "mdns.h"
 
 #include "lwip/err.h"
 #include "lwip/sys.h"
@@ -24,9 +25,10 @@
    If you'd rather not, just change the below entries to strings with
    the config you want - ie #define EXAMPLE_WIFI_SSID "mywifissid"
 */
-#define ESP_WIFI_SSID      CONFIG_WIFI_SSID
-#define ESP_WIFI_PASS      CONFIG_WIFI_PASSWORD
-#define ESP_MAXIMUM_RETRY  CONFIG_MAXIMUM_RETRY
+#define ESP_WIFI_SSID       CONFIG_WIFI_SSID
+#define ESP_WIFI_PASS       CONFIG_WIFI_PASSWORD
+#define ESP_MAXIMUM_RETRY   CONFIG_MAXIMUM_RETRY
+#define HOSTNAME            CONFIG_HOSTNAME
 
 /* FreeRTOS event group to signal when we are connected*/
 static EventGroupHandle_t s_wifi_event_group;
@@ -61,6 +63,25 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         s_retry_num = 0;
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
     }
+}
+
+static void start_mdns_service()
+{
+    // initialize mDNS
+    ESP_ERROR_CHECK(mdns_init());
+    // set mDNS hostname (required if you want to advertise services)
+    ESP_ERROR_CHECK(mdns_hostname_set(HOSTNAME));
+    // set default mDNS instance name
+    ESP_ERROR_CHECK(mdns_instance_name_set(HOSTNAME));
+
+    // structure with TXT records
+    mdns_txt_item_t serviceTxtData[3] = {
+        {"board", "esp32"}, {"u", "user"}, {"p", "password"}};
+
+    // initialize service
+    ESP_LOGI("MDNS", "Initialize service...");
+    ESP_ERROR_CHECK(mdns_service_add("Cuby-Webserver", "_http", "_tcp", 80,
+                                    serviceTxtData, 3));
 }
 
 void wifi_init_sta(void)
@@ -124,4 +145,6 @@ void wifi_init_sta(void)
     ESP_ERROR_CHECK(esp_event_handler_unregister(IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler));
     ESP_ERROR_CHECK(esp_event_handler_unregister(WIFI_EVENT, ESP_EVENT_ANY_ID, &event_handler));
     vEventGroupDelete(s_wifi_event_group);
+
+    start_mdns_service();
 }

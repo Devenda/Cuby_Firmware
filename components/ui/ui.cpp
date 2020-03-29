@@ -8,6 +8,7 @@
 
 static const char *TAG = "UI";
 
+//TODO: move ui workings to task
 UI::UI(/* args */)
 {
     ESP_LOGI(TAG, "Initializing touch");

@@ -19,6 +19,12 @@ menu "Cuby Configuration"
         help
             Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
 
+    config HOSTNAME
+        string "mDNS Hostname"
+        default "cuby"
+        help
+            mDNS Hostname
+
     # For OTA
     config FIRMWARE_UPGRADE_URL
         string "Firmware upgrade URL endpoint"

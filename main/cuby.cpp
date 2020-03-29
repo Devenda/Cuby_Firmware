@@ -30,7 +30,7 @@ extern "C" void app_main(void)
     motors_sleep();
 
     // WiFi
-    // wifi_init_sta();
+    wifi_init_sta();
 
     // OTA
     // ota_start_update(NULL);
