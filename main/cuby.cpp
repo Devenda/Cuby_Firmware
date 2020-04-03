@@ -13,6 +13,7 @@
 #include "wifi.h"
 #include "ota.h"
 #include "ui.h"
+#include "api.h"
 
 static const char *TAG = "main";
 
@@ -32,12 +33,15 @@ extern "C" void app_main(void)
     // WiFi
     wifi_init_sta();
 
+    // API
+    api_start();
+
     // OTA
     // ota_start_update(NULL);
     // xTaskCreate(&ota_start_update, "ota_start_update", 8192, NULL, 5, NULL);
 
     // UI
-    UI ui;
+    // UI ui;
   
     while (1)
     {
