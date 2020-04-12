@@ -17,6 +17,8 @@
 #include "esp_netif.h"
 #include "esp_eth.h"
 
+#include <stdlib.h>
+
 #include <esp_http_server.h>
 
 /* A simple example that demonstrates using websocket echo server
@@ -65,7 +67,7 @@ static esp_err_t trigger_async_send(httpd_handle_t handle, httpd_req_t *req)
  * This handler echos back the received ws data
  * and triggers an async send if certain message received
  */
-static esp_err_t echo_handler(httpd_req_t *req)
+static esp_err_t handler(httpd_req_t *req)
 {
     uint8_t buf[128] = {0};
     httpd_ws_frame_t ws_pkt;
@@ -78,26 +80,28 @@ static esp_err_t echo_handler(httpd_req_t *req)
         ESP_LOGE(TAG, "httpd_ws_recv_frame failed with %d", ret);
         return ret;
     }
-    ESP_LOGI(TAG, "Got packet with message: %s", ws_pkt.payload);
-    ESP_LOGI(TAG, "Packet type: %d", ws_pkt.type);
-    if (ws_pkt.type == HTTPD_WS_TYPE_TEXT &&
-        strcmp((char *)ws_pkt.payload, "Trigger async") == 0)
-    {
-        return trigger_async_send(req->handle, req);
-    }
 
-    ret = httpd_ws_send_frame(req, &ws_pkt);
-    if (ret != ESP_OK)
-    {
-        ESP_LOGE(TAG, "httpd_ws_send_frame failed with %d", ret);
-    }
+    char *data = (char *)ws_pkt.payload;
+    char sDegrees[4];
+    char sDistance[4];
+
+    strncpy(sDegrees, data, 3);
+    sDegrees[4] = '\0';    
+    int degrees = atoi(sDegrees);
+
+    strcpy(sDistance, &data[3]);
+    sDistance[4] = '\0';
+    int distance = atoi(sDistance);
+
+    ESP_LOGI(TAG, "Degrees: %d, Distance: %d", degrees, distance);
+
     return ret;
 }
 
 static const httpd_uri_t ws = {
-    .uri = "/ws",
+    .uri = "/",
     .method = HTTP_GET,
-    .handler = echo_handler,
+    .handler = handler,
     .user_ctx = NULL,
     .is_websocket = true};
 
