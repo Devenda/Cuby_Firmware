@@ -73,7 +73,7 @@ static esp_err_t handler(httpd_req_t *req)
     httpd_ws_frame_t ws_pkt;
     memset(&ws_pkt, 0, sizeof(httpd_ws_frame_t));
     ws_pkt.payload = buf;
-    ws_pkt.type = HTTPD_WS_TYPE_TEXT;
+    ws_pkt.type = HTTPD_WS_TYPE_BINARY;
     esp_err_t ret = httpd_ws_recv_frame(req, &ws_pkt, 128);
     if (ret != ESP_OK)
     {
@@ -81,17 +81,9 @@ static esp_err_t handler(httpd_req_t *req)
         return ret;
     }
 
-    char *data = (char *)ws_pkt.payload;
-    char sDegrees[4];
-    char sDistance[4];
-
-    strncpy(sDegrees, data, 3);
-    sDegrees[4] = '\0';    
-    int degrees = atoi(sDegrees);
-
-    strcpy(sDistance, &data[3]);
-    sDistance[4] = '\0';
-    int distance = atoi(sDistance);
+    int degrees, distance;
+    degrees = buf[0] | (buf[1] << 8) | (buf[2] << 16) | (buf[3] << 24);//buf[0];
+    distance = buf[4] | (buf[5] << 8) | (buf[6] << 16) | (buf[7] << 24);//buf[4];    
 
     ESP_LOGI(TAG, "Degrees: %d, Distance: %d", degrees, distance);
 
