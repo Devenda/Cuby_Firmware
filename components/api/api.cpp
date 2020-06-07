@@ -21,6 +21,8 @@
 
 #include <esp_http_server.h>
 
+#include "motors.h"
+
 /* A simple example that demonstrates using websocket echo server
  */
 static const char *TAG = "ws_echo_server";
@@ -69,6 +71,7 @@ static esp_err_t trigger_async_send(httpd_handle_t handle, httpd_req_t *req)
  */
 static esp_err_t handler(httpd_req_t *req)
 {
+    //TODO: Make buffer (way) smaller
     uint8_t buf[128] = {0};
     httpd_ws_frame_t ws_pkt;
     memset(&ws_pkt, 0, sizeof(httpd_ws_frame_t));
@@ -87,6 +90,8 @@ static esp_err_t handler(httpd_req_t *req)
 
     ESP_LOGI(TAG, "Degrees: %d, Distance: %d", degrees, distance);
 
+    motors_setSpeed(distance);
+    
     return ret;
 }
 

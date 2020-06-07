@@ -1,4 +1,8 @@
 #pragma once
 
+void motors_init();
+
 void motors_sleep();
-void motors_init_gpio();
+void motors_wake();
+
+void motors_setSpeed(int speed);
