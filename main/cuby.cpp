@@ -13,7 +13,6 @@
 #include "wifi.h"
 #include "ota.h"
 #include "ui.h"
-#include "api.h"
 #include "server.h"
 
 static const char *TAG = "main";
@@ -29,13 +28,10 @@ extern "C" void app_main(void)
 
     // Motors
     motors_init();
-    motors_sleep();
+    //motors_sleep();    
 
     // WiFi
     wifi_init_sta();
-
-    // API
-    // api_start();
 
     // Server
     server_start();

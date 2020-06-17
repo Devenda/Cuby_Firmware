@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "u8g2.h": "c",
-        "oled.h": "c"
+        "oled.h": "c",
+        "*.tcc": "cpp",
+        "iterator": "cpp"
     }
 }

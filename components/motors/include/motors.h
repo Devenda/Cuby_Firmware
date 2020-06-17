@@ -5,4 +5,4 @@ void motors_init();
 void motors_sleep();
 void motors_wake();
 
-void motors_setSpeed(int speed);
+void motors_set(int angle, int speed);
